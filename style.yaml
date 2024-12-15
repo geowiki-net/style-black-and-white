@@ -1,7 +1,7 @@
 layers:
 - query: |-
     (
-    way[highway~'^(motorway|trunk|unclassified|residential|primary|secondary|tertiary|service)(|_link)$'];
+    way[highway~'^(motorway|trunk|unclassified|residential|living_street|primary|secondary|tertiary|service)(|_link)$'];
     way[highway~'^(path|cycleway|footway|track)$'];
     )
   feature:
@@ -13,7 +13,7 @@ layers:
         {% set width = 3 %}
       {% elseif tags.highway matches '/^(motorway|trunk)$/' %}
         {% set width = 5 %}
-      {% elseif tags.highway matches '/^(unclassified|residential|primary|secondary|tertiary)(|_link)$/' %}
+      {% elseif tags.highway matches '/^(unclassified|residential|living_street|primary|secondary|tertiary)(|_link)$/' %}
         {% set width = 3 %}
       {% elseif tags.highway matches '/^(service)$/' %}
         {% set width = 2 %}
@@ -89,17 +89,20 @@ layers:
       width: 0
       fill: false
       text: '   {{ tags.name }}   '
+      textPlacement: line
       textFontName: 'DejaVu Sans Oblique'
       textColor: black
       textHaloColor: '#ffffff'
-      textMoveY: 3
+      textMoveY: |-
+        {{ 1 + width / 2 }}
       textFontSize: '6'
       textHaloRadius: 0.5
+      textRepeatSpacing: '500'
       zIndex: 10
 
 - query: |-
     (
-    way[railway];
+    way[railway~'^(rail|subway)$'];
     )
   feature:
     pre: |-
@@ -176,14 +179,21 @@ layers:
     style:
       width: 0
       color: black
-      fillColor: '#afafaf'
+      fillColor: |-
+        {% if id == 'w354615540' %}
+        red
+        {% elseif tags.amenity in ['school', 'place_of_worship'] or tags.building in ['school'] %}
+        #8f8f8f
+        {% else %}
+        #afafaf
+        {% endif %}
       fillOpacity: 1
       fill: true
       zIndex: -1
 
 - query: nwr[waterway~'^(ditch|drain|river)$']
   feature:
-    styles: casing,default
+    styles: casing,default,label
     style:casing:
       width: |-
         {% if tags.waterway in ['ditch', 'drain'] %}
@@ -205,12 +215,30 @@ layers:
       fill: false
       zIndex: -2
 
+    style:label:
+      color: red
+      width: 0
+      fill: false
+      text: '   {{ tags.name }}   '
+      textFontName: 'DejaVu Sans Oblique'
+      textPlacement: line
+      textColor: blue
+      textHaloColor: '#3f3fff'
+      textMoveY: 0
+      textFontSize: '6'
+      textHaloRadius: 0.5
+      textRepeatSpacing: '500'
+      zIndex: 10.1
+
+
 - query: |-
     (
     way[natural=water][intermittent!=yes];
     relation[natural=water][intermittent!=yes];
     )
   feature:
+    styles: default,label
+
     style:
       width: 0.5
       color: blue
@@ -218,3 +246,31 @@ layers:
       fillOpacity: 1
       fill: true
       zIndex: -2.1
+
+    style:label:
+      color: red
+      width: 0
+      fill: false
+      text: '{{ tags.name }}'
+      textPlacement: point
+      textFontName: 'DejaVu Sans Oblique'
+      textColor: blue
+      textHaloColor: '#3f3fff'
+      textMoveY: 0
+      textFontSize: '6'
+      textHaloRadius: 0.5
+      zIndex: 10
+
+- query: |-
+    (
+    way[barrier];
+    )
+  feature:
+    style:
+      fill: false
+      color: '#afafaf'
+      width: 0.1
+      lineCap: round
+      dashArray: '1,1'
+      zIndex: |
+        {{ tags.layer|default(0) - 0.1 }}
