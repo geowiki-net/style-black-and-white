@@ -29,9 +29,9 @@ layers:
       {% endif %}
     styles: |
       {% if tags.bridge and tags.bridge != 'no' %}
-      bridge_backcasing,bridge_casing,way_backcasing,way_casing,default
+      bridge_backcasing,bridge_casing,way_backcasing,way_casing,default,label
       {% else %}
-      default
+      default,label
       {% endif %}
 
     style:bridge_backcasing:
@@ -80,8 +80,22 @@ layers:
         {% endif %}
       dashArray: ''
       fill: false
+      lineCap: round
       zIndex: |
         {{ tags.layer|default(0) + zIndexOffset }}
+
+    style:label:
+      color: red
+      width: 0
+      fill: false
+      text: '   {{ tags.name }}   '
+      textFontName: 'DejaVu Sans Oblique'
+      textColor: black
+      textHaloColor: '#ffffff'
+      textMoveY: 3
+      textFontSize: '6'
+      textHaloRadius: 0.5
+      zIndex: 10
 
 - query: |-
     (
