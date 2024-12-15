@@ -1,0 +1,206 @@
+layers:
+- query: |-
+    (
+    way[highway~'^(motorway|trunk|unclassified|residential|primary|secondary|tertiary|service)(|_link)$'];
+    way[highway~'^(path|cycleway|footway|track)$'];
+    )
+  feature:
+    pre: |-
+      {% set width = 1 %}
+      {% set zIndexOffset = 0 %}
+
+      {% if tags.highway matches '/^(motorway|trunk)_link$/' %}
+        {% set width = 3 %}
+      {% elseif tags.highway matches '/^(motorway|trunk)$/' %}
+        {% set width = 5 %}
+      {% elseif tags.highway matches '/^(unclassified|residential|primary|secondary|tertiary)(|_link)$/' %}
+        {% set width = 3 %}
+      {% elseif tags.highway matches '/^(service)$/' %}
+        {% set width = 2 %}
+      {% elseif tags.highway matches '/^(path|cycleway|footway|track)$/' %}
+        {% set width = 1 %}
+        {% set zIndexOffset = -0.1 %}
+
+        {% if tags.highway == 'cycleway' or tags.bicycle in ['yes', 'designated'] %}
+          {% set zIndexOffset = -0.05 %}
+        {% endif %}
+      {% else %}
+        {% set width = 0 %}
+      {% endif %}
+    styles: |
+      {% if tags.bridge and tags.bridge != 'no' %}
+      bridge_backcasing,bridge_casing,way_backcasing,way_casing,default
+      {% else %}
+      default
+      {% endif %}
+
+    style:bridge_backcasing:
+      width: |-
+        {{ width + 2 }}
+      color: black
+      fill: false
+      zIndex: |
+        -10
+
+    style:bridge_casing:
+      width: |-
+        {{ width + 2 }}
+      color: black
+      fill: false
+      lineCap: butt
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset }}
+
+    style:way_casing:
+      width: |-
+        {{ width + 1 }}
+      color: white
+      fill: false
+      lineCap: butt
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset }}
+
+    style:way_backcasing:
+      width: |-
+        {{ width + 1 }}
+      color: white
+      fill: false
+      zIndex: -10
+
+    style:
+      width: |-
+        {{ width }}
+      color: |-
+        {% if tags.highway == 'cycleway' or tags.bicycle in ['yes', 'designated'] %}
+        #2f2f2f
+        {% elseif tags.highway matches '/^(path|cycleway|footway|track)$/' %}
+        #4f4f4f
+        {% else %}
+        black
+        {% endif %}
+      dashArray: ''
+      fill: false
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset }}
+
+- query: |-
+    (
+    way[railway];
+    )
+  feature:
+    pre: |-
+      {% set width = 2 %}
+      {% set zIndexOffset = 0 %}
+
+    styles: |
+      {% if tags.bridge and tags.bridge != 'no' %}
+      bridge_backcasing,bridge_casing,way_backcasing,way_casing,
+      {% endif %}
+      default,track
+
+    style:bridge_backcasing:
+      width: |-
+        {{ width + 2.5 }}
+      color: black
+      fill: false
+      zIndex: |
+        -10.5
+
+    style:way_backcasing:
+      width: |-
+        {{ width + 1.5 }}
+      color: white
+      fill: false
+      zIndex: |
+        -10
+
+    style:bridge_casing:
+      width: |-
+        {{ width + 2.5 }}
+      color: black
+      fill: false
+      lineCap: butt
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset - 0.15 }}
+
+    style:way_casing:
+      width: |-
+        {{ width + 1.5 }}
+      color: white
+      fill: false
+      lineCap: butt
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset - 0.1 }}
+
+    style:
+      width: |-
+        {{ width }}
+      color: black
+      dashArray: ''
+      fill: false
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset + 0.1 }}
+
+    style:track:
+      width: |-
+        {{ width + 1 }}
+      color: black
+      dashArray: '0.5,3'
+      lineCap: butt
+      fill: false
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset + 0.1 }}
+
+
+- query: way[nothing]
+  feature:
+    style:
+      dashArray: '0,3'
+
+- query: nwr[building]
+  feature:
+    style:
+      width: 0
+      color: black
+      fillColor: '#afafaf'
+      fillOpacity: 1
+      fill: true
+      zIndex: -1
+
+- query: nwr[waterway~'^(ditch|drain|river)$']
+  feature:
+    styles: casing,default
+    style:casing:
+      width: |-
+        {% if tags.waterway in ['ditch', 'drain'] %}
+        0.5
+        {% else %}
+        3
+        {% endif %}
+      color: blue
+      fill: false
+      zIndex: -2
+    style:
+      width: |-
+        {% if tags.waterway in ['ditch', 'drain'] %}
+        0
+        {% else %}
+        2
+        {% endif %}
+      color: '#3f3fff'
+      fill: false
+      zIndex: -2
+
+- query: |-
+    (
+    way[natural=water][intermittent!=yes];
+    relation[natural=water][intermittent!=yes];
+    )
+  feature:
+    style:
+      width: 0.5
+      color: blue
+      fillColor: '#3f3fff'
+      fillOpacity: 1
+      fill: true
+      zIndex: -2.1
