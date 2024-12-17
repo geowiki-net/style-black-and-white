@@ -71,10 +71,10 @@ layers:
       width: |-
         {{ width }}
       color: |-
-        {% if tags.highway == 'cycleway' or tags.bicycle in ['yes', 'designated'] %}
+        {% if tags.highway == 'cycleway' or (tags.highway matches '/^(path|footway|track)$/' and tags.bicycle in ['yes', 'designated']) %}
         #2f2f2f
-        {% elseif tags.highway matches '/^(path|cycleway|footway|track)$/' %}
-        #4f4f4f
+        {% elseif tags.highway matches '/^(path|footway|track)$/' %}
+        #7f7f7f
         {% else %}
         black
         {% endif %}
@@ -183,7 +183,7 @@ layers:
         {% if id == 'w354615540' %}
         red
         {% elseif tags.amenity in ['school', 'place_of_worship'] or tags.building in ['school'] %}
-        #8f8f8f
+        #9f9f9f
         {% else %}
         #afafaf
         {% endif %}
