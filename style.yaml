@@ -122,6 +122,12 @@ layers:
     pre: |-
       {% set width = 1.5 %}
       {% set zIndexOffset = 0 %}
+      {% set color = '#000000' %}
+
+      {% if tags.service %}
+        {% set color = '#7f7f7f' %}
+        {% set zIndexOffset = -0.2 %}
+      {% endif %}
 
     styles: |
       {% if tags.bridge and tags.bridge != 'no' %}
@@ -132,7 +138,8 @@ layers:
     style:bridge_backcasing:
       width: |-
         {{ width + 2.5 }}
-      color: black
+      color: |-
+        {{ color }}
       fill: false
       zIndex: |
         -10.5
@@ -166,7 +173,8 @@ layers:
     style:
       width: |-
         {{ width }}
-      color: black
+      color: |-
+        {{ color }}
       dashArray: ''
       fill: false
       zIndex: |
@@ -175,7 +183,8 @@ layers:
     style:track:
       width: |-
         {{ width + 1 }}
-      color: black
+      color: |-
+        {{ color }}
       dashArray: '1,2'
       lineCap: butt
       fill: false
