@@ -120,7 +120,7 @@ layers:
     )
   feature:
     pre: |-
-      {% set width = 2 %}
+      {% set width = 1.5 %}
       {% set zIndexOffset = 0 %}
 
     styles: |
@@ -176,7 +176,7 @@ layers:
       width: |-
         {{ width + 1 }}
       color: black
-      dashArray: '0.5,3'
+      dashArray: '1,2'
       lineCap: butt
       fill: false
       zIndex: |
