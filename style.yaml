@@ -286,6 +286,50 @@ layers:
 
 - query: |-
     (
+    way[leisure=park];
+    relation[leisure=park];
+    )
+#    way[landuse~'^(grass|forest)$'];
+#    relation[landuse='^(grass|forest)$'];
+  feature:
+    pre: |-
+      {% set color = '#ff0000' %}
+      {% set casing = '#7f0000' %}
+
+      {% if tags.leisure == 'park' %}
+        {% set color = '#3fff3f' %}
+        {% set casing = '#7fff7f' %}
+      {% elseif tags.landuse == 'forest' %}
+        {% set color = '#3f7f3f' %}
+        {% set casing = '#007f00' %}
+      {% endif %}
+    styles: default,label
+
+    style:
+      width: 0.5
+      color: '#7eeb91'
+      fillColor: '#a2eb9f'
+      fillOpacity: 1
+      fill: true
+      zIndex: -2.1
+
+#    style:label:
+#      color: red
+#      width: 0
+#      fill: true
+#      fillOpacity: 0
+#      text: '{{ tags.name }}'
+#      textPlacement: point
+#      textFontName: 'DejaVu Sans Oblique'
+#      textColor: '#ffffff'
+#      textHaloColor: '#a2eb9f'
+#      textMoveY: 0
+#      textFontSize: '6'
+#      textHaloRadius: 0.5
+#      zIndex: 10
+
+- query: |-
+    (
     way[barrier];
     )
   feature:
