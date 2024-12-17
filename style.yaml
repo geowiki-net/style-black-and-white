@@ -201,7 +201,7 @@ layers:
         {% else %}
         3
         {% endif %}
-      color: blue
+      color: '#50b7e8'
       fill: false
       zIndex: -2
     style:
@@ -211,7 +211,7 @@ layers:
         {% else %}
         2
         {% endif %}
-      color: '#3f3fff'
+      color: '#6dc1e8'
       fill: false
       zIndex: -2
 
@@ -222,8 +222,8 @@ layers:
       text: '   {{ tags.name }}   '
       textFontName: 'DejaVu Sans Oblique'
       textPlacement: line
-      textColor: blue
-      textHaloColor: '#3f3fff'
+      textColor: white
+      textHaloColor: '#6dc1e8'
       textMoveY: 0
       textFontSize: '6'
       textHaloRadius: 0.5
@@ -241,8 +241,8 @@ layers:
 
     style:
       width: 0.5
-      color: blue
-      fillColor: '#3f3fff'
+      color: '#50b7e8'
+      fillColor: '#6dc1e8'
       fillOpacity: 1
       fill: true
       zIndex: -2.1
@@ -254,8 +254,8 @@ layers:
       text: '{{ tags.name }}'
       textPlacement: point
       textFontName: 'DejaVu Sans Oblique'
-      textColor: blue
-      textHaloColor: '#3f3fff'
+      textColor: white
+      textHaloColor: '#6dc1e8'
       textMoveY: 0
       textFontSize: '6'
       textHaloRadius: 0.5
