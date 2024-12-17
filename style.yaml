@@ -2,7 +2,7 @@ layers:
 - query: |-
     (
     way[highway~'^(motorway|trunk|unclassified|residential|living_street|primary|secondary|tertiary|service)(|_link)$'];
-    way[highway~'^(path|cycleway|footway|track)$'];
+    way[highway~'^(path|cycleway|footway|track|pedestrian|steps)$'];
     )
   feature:
     pre: |-
@@ -13,11 +13,12 @@ layers:
         {% set width = 3 %}
       {% elseif tags.highway matches '/^(motorway|trunk)$/' %}
         {% set width = 5 %}
-      {% elseif tags.highway matches '/^(unclassified|residential|living_street|primary|secondary|tertiary)(|_link)$/' %}
+      {% elseif tags.highway matches '/^(unclassified|residential|living_street|primary|secondary|tertiary|pedestrian)(|_link)$/' %}
         {% set width = 3 %}
       {% elseif tags.highway matches '/^(service)$/' %}
         {% set width = 2 %}
-      {% elseif tags.highway matches '/^(path|cycleway|footway|track)$/' %}
+        {% set zIndexOffset = -0.2 %}
+      {% elseif tags.highway matches '/^(path|cycleway|footway|track|steps)$/' %}
         {% set width = 1 %}
         {% set zIndexOffset = -0.1 %}
 
@@ -32,6 +33,9 @@ layers:
       bridge_backcasing,bridge_casing,way_backcasing,way_casing,default,label
       {% else %}
       default,label
+      {% endif %}
+      {% if tags.highway == 'steps' %}
+      ,steps
       {% endif %}
 
     style:bridge_backcasing:
@@ -71,9 +75,9 @@ layers:
       width: |-
         {{ width }}
       color: |-
-        {% if tags.highway == 'cycleway' or (tags.highway matches '/^(path|footway|track)$/' and tags.bicycle in ['yes', 'designated']) %}
+        {% if tags.highway == 'cycleway' or (tags.highway matches '/^(path|footway|track|pedestrian)$/' and tags.bicycle in ['yes', 'designated']) %}
         #2f2f2f
-        {% elseif tags.highway matches '/^(path|footway|track)$/' %}
+        {% elseif tags.highway matches '/^(path|footway|track|service|pedestrian|steps)$/' %}
         #7f7f7f
         {% else %}
         black
@@ -83,6 +87,16 @@ layers:
       lineCap: round
       zIndex: |
         {{ tags.layer|default(0) + zIndexOffset }}
+
+    style:steps:
+      color: '#3f3f3f'
+      width: |-
+        {{ width }}
+      dashArray: '0.5,1'
+      fill: false
+      lineCap: butt
+      zIndex: |
+        {{ tags.layer|default(0) + zIndexOffset + 0.1 }}
 
     style:label:
       color: red
