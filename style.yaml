@@ -42,6 +42,7 @@ layers:
       width: |-
         {{ width + 2 }}
       color: black
+      lineCap: butt
       fill: false
       zIndex: |
         -10
@@ -68,6 +69,7 @@ layers:
       width: |-
         {{ width + 1 }}
       color: white
+      lineCap: butt
       fill: false
       zIndex: -10
 
@@ -141,6 +143,7 @@ layers:
       color: |-
         {{ color }}
       fill: false
+      lineCap: butt
       zIndex: |
         -10.5
 
@@ -149,6 +152,7 @@ layers:
         {{ width + 1.5 }}
       color: white
       fill: false
+      lineCap: butt
       zIndex: |
         -10
 
