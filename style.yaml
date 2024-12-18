@@ -108,7 +108,7 @@ layers:
       textPlacement: line
       textFontName: 'DejaVu Sans Oblique'
       textColor: black
-      textHaloColor: '#ffffff'
+      textHaloColor: '#ffffff9f'
       textMoveY: |-
         {{ 1 + width / 2 }}
       textFontSize: '6'
@@ -250,7 +250,7 @@ layers:
       textFontName: 'DejaVu Sans Oblique'
       textPlacement: line
       textColor: white
-      textHaloColor: '#6dc1e8'
+      textHaloColor: '#6dc1e89f'
       textMoveY: 0
       textFontSize: '6'
       textHaloRadius: 0.5
@@ -282,7 +282,7 @@ layers:
       textPlacement: point
       textFontName: 'DejaVu Sans Oblique'
       textColor: white
-      textHaloColor: '#6dc1e8'
+      textHaloColor: '#6dc1e89f'
       textMoveY: 0
       textFontSize: '6'
       textHaloRadius: 0.5
