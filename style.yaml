@@ -317,20 +317,21 @@ layers:
       fill: true
       zIndex: -2.1
 
-#    style:label:
-#      color: red
-#      width: 0
-#      fill: true
-#      fillOpacity: 0
-#      text: '{{ tags.name }}'
-#      textPlacement: point
-#      textFontName: 'DejaVu Sans Oblique'
-#      textColor: '#ffffff'
-#      textHaloColor: '#a2eb9f'
-#      textMoveY: 0
-#      textFontSize: '6'
-#      textHaloRadius: 0.5
-#      zIndex: 10
+    style:label:
+      color: red
+      width: 0
+      fill: true
+      fillOpacity: 0
+      text: '{{ tags.name }}'
+      textPlacement: point
+      textFontName: 'DejaVu Sans Oblique'
+      textColor: black
+      textHaloColor: '#a2eb9f9f'
+      textMoveY: 0
+      textFontSize: '6'
+      textHaloRadius: 0.5
+      textWrapWidth: 20
+      zIndex: 21
 
 - query: |-
     (
