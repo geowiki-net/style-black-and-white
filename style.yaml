@@ -2,6 +2,7 @@ layers:
 - query: |-
     (
     way[highway~'^(motorway|trunk|unclassified|residential|living_street|primary|secondary|tertiary|service)(|_link)$'];
+    way[highway=construction];
     way[highway~'^(path|cycleway|footway|track|pedestrian|steps)$'];
     )
   feature:
@@ -9,20 +10,22 @@ layers:
       {% set width = 1 %}
       {% set zIndexOffset = 0 %}
 
-      {% if tags.highway matches '/^(motorway|trunk)_link$/' %}
+      {% set highway = tags.highway == 'construction' ? tags.construction : tags.highway %}
+
+      {% if highway matches '/^(motorway|trunk)_link$/' %}
         {% set width = 3 %}
-      {% elseif tags.highway matches '/^(motorway|trunk)$/' %}
+      {% elseif highway matches '/^(motorway|trunk)$/' %}
         {% set width = 5 %}
-      {% elseif tags.highway matches '/^(unclassified|residential|living_street|primary|secondary|tertiary|pedestrian)(|_link)$/' %}
+      {% elseif highway matches '/^(unclassified|residential|living_street|primary|secondary|tertiary|pedestrian)(|_link)$/' %}
         {% set width = 3 %}
-      {% elseif tags.highway matches '/^(service)$/' %}
+      {% elseif highway matches '/^(service)$/' %}
         {% set width = 2 %}
         {% set zIndexOffset = -0.2 %}
-      {% elseif tags.highway matches '/^(path|cycleway|footway|track|steps)$/' %}
+      {% elseif highway matches '/^(path|cycleway|footway|track|steps)$/' %}
         {% set width = 1 %}
         {% set zIndexOffset = -0.1 %}
 
-        {% if tags.highway == 'cycleway' or tags.bicycle in ['yes', 'designated'] %}
+        {% if highway == 'cycleway' or tags.bicycle in ['yes', 'designated'] %}
           {% set zIndexOffset = -0.05 %}
         {% endif %}
       {% else %}
@@ -38,7 +41,7 @@ layers:
       {% else %}
       default,label
       {% endif %}
-      {% if tags.highway == 'steps' %}
+      {% if highway == 'steps' %}
       ,steps
       {% endif %}
 
@@ -81,9 +84,9 @@ layers:
       width: |-
         {{ width }}
       color: |-
-        {% if tags.highway == 'cycleway' or (tags.highway matches '/^(path|footway|track|pedestrian)$/' and tags.bicycle in ['yes', 'designated']) %}
+        {% if highway == 'cycleway' or (highway matches '/^(path|footway|track|pedestrian)$/' and tags.bicycle in ['yes', 'designated']) %}
         #2f2f2f
-        {% elseif tags.highway matches '/^(path|footway|track|service|pedestrian|steps)$/' %}
+        {% elseif highway matches '/^(path|footway|track|service|pedestrian|steps)$/' %}
         #7f7f7f
         {% else %}
         black
