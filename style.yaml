@@ -28,6 +28,10 @@ layers:
       {% else %}
         {% set width = 0 %}
       {% endif %}
+
+      {% if is_area %}
+        {% set width = 0 %}
+      {% endif %}
     styles: |
       {% if tags.bridge and tags.bridge != 'no' %}
       bridge_backcasing,bridge_casing,way_backcasing,way_casing,default,label
@@ -85,7 +89,10 @@ layers:
         black
         {% endif %}
       dashArray: ''
-      fill: false
+      fill: |-
+        {{ is_area }}
+      fillColor: |-
+        white
       lineCap: round
       zIndex: |
         {{ tags.layer|default(0) + zIndexOffset }}
@@ -105,7 +112,8 @@ layers:
       width: 0
       fill: false
       text: '   {{ tags.name }}   '
-      textPlacement: line
+      textPlacement: |-
+        {{ is_area ? 'point' : 'line' }}
       textFontName: 'DejaVu Sans Oblique'
       textColor: black
       textHaloColor: '#ffffff9f'
