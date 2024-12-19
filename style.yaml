@@ -142,6 +142,10 @@ layers:
         {% set zIndexOffset = -0.2 %}
       {% endif %}
 
+      {% if tags.tunnel and tags.tunnel != 'no' %}
+        {% set color = '#9f9f9f' %}
+      {% endif %}
+
     styles: |
       {% if tags.bridge and tags.bridge != 'no' %}
       bridge_backcasing,bridge_casing,way_backcasing,way_casing,
