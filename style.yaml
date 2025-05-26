@@ -1,10 +1,11 @@
 layers:
-- query: |-
-    (
-    way[highway~'^(motorway|trunk|unclassified|residential|living_street|primary|secondary|tertiary|service)(|_link)$'];
-    way[highway=construction];
-    way[highway~'^(path|cycleway|footway|track|pedestrian|steps)$'];
-    )
+- query:
+    14: |-
+      (
+      way[highway~'^(motorway|trunk|unclassified|residential|living_street|primary|secondary|tertiary|service)(|_link)$'];
+      way[highway=construction];
+      way[highway~'^(path|cycleway|footway|track|pedestrian|steps)$'];
+      )
   feature:
     pre: |-
       {% set width = 1 %}
@@ -127,10 +128,11 @@ layers:
       textRepeatSpacing: '500'
       zIndex: 22
 
-- query: |-
-    (
-    way[railway~'^(rail|subway)$'];
-    )
+- query: 
+    14: |-
+      (
+      way[railway~'^(rail|subway)$'];
+      )
   feature:
     pre: |-
       {% set width = 1.5 %}
@@ -211,12 +213,14 @@ layers:
         {{ tags.layer|default(0) + zIndexOffset + 0.1 }}
 
 
-- query: way[nothing]
+- query:
+    14: way[nothing]
   feature:
     style:
       dashArray: '0,3'
 
-- query: nwr[building]
+- query:
+    14: nwr[building]
   feature:
     style:
       width: 0
@@ -233,7 +237,8 @@ layers:
       fill: true
       zIndex: -1
 
-- query: nwr[waterway~'^(ditch|drain|river)$']
+- query:
+    14: nwr[waterway~'^(ditch|drain|river)$']
   feature:
     styles: casing,default,label
     style:casing:
@@ -273,11 +278,12 @@ layers:
       zIndex: 22
 
 
-- query: |-
-    (
-    way[natural=water][intermittent!=yes];
-    relation[natural=water][intermittent!=yes];
-    )
+- query:
+    14: |-
+      (
+      way[natural=water][intermittent!=yes];
+      relation[natural=water][intermittent!=yes];
+      )
   feature:
     styles: default,label
 
@@ -303,11 +309,12 @@ layers:
       textHaloRadius: 0.5
       zIndex: 21
 
-- query: |-
-    (
-    way[leisure=park];
-    relation[leisure=park];
-    )
+- query:
+    14: |-
+      (
+      way[leisure=park];
+      relation[leisure=park];
+      )
 #    way[landuse~'^(grass|forest)$'];
 #    relation[landuse='^(grass|forest)$'];
   feature:
@@ -348,10 +355,11 @@ layers:
       textWrapWidth: 20
       zIndex: 21
 
-- query: |-
-    (
-    way[barrier];
-    )
+- query:
+    14: |-
+      (
+      way[barrier];
+      )
   feature:
     style:
       fill: false
